@@ -5,16 +5,21 @@ import (
 	"github.com/go-redis/redis"
 	"github.com/csimplestring/echo-rest-example/customer"
 	"github.com/labstack/gommon/log"
+	"os"
+	"strconv"
+	"time"
 )
-
-
-// add tests, message queue increse ops, server stop(close connection), validation, flags command, separate files, store cluster
 
 func main() {
 
+	addr := os.Getenv("API_SERVER_ADDR")
+	redisAddr := os.Getenv("REDIS_ADDR")
+	redisDB, _ := strconv.Atoi(os.Getenv("REDIS_DB"))
+
 	redisCli := redis.NewClient(&redis.Options{
-		Addr:     "192.168.99.100:6379",
-		DB:       0,
+		Addr:     redisAddr,
+		DB:       redisDB,
+		DialTimeout: time.Second,
 	})
 
 	customerController := customer.NewController(
@@ -25,7 +30,7 @@ func main() {
 	e.GET("/customer/:name", customerController.Get)
 	e.POST("/customer", customerController.Create)
 
-	e.Logger.Fatal(e.Start(":8088"))
+	e.Logger.Fatal(e.Start(addr))
 }
 
 
