@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-
 	addr := os.Getenv("API_SERVER_ADDR")
 	redisAddr := os.Getenv("REDIS_ADDR")
 	redisDB, _ := strconv.Atoi(os.Getenv("REDIS_DB"))
@@ -22,6 +21,13 @@ func main() {
 		DialTimeout: time.Second,
 	})
 
+	s := newServer(redisCli)
+
+	s.Logger.Fatal(s.Start(addr))
+}
+
+func newServer(redisCli *redis.Client) *echo.Echo {
+
 	customerController := customer.NewController(
 		customer.NewRepository(redisCli))
 
@@ -30,7 +36,7 @@ func main() {
 	e.GET("/customer/:name", customerController.Get)
 	e.POST("/customer", customerController.Create)
 
-	e.Logger.Fatal(e.Start(addr))
+	return e
 }
 
 

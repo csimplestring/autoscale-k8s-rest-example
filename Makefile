@@ -4,3 +4,7 @@ build:
 
 build-docker: build
 	docker build . -t echo-rest/api
+
+tests:
+	go clean -testcache
+	go test ./...
