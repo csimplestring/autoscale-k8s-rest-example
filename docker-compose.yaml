@@ -1,0 +1,14 @@
+version: '2.1'
+services:
+#  api:
+#    container_name: echo-api
+#    image: "echo-rest/api"
+#    ports:
+#      - "8088:80"
+#    links:
+#      - "redis"
+  redis:
+    container_name: echo-redis
+    image: redis
+    ports:
+      - "6379:6379"
