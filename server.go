@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/labstack/echo"
-	"github.com/go-redis/redis"
 	"github.com/csimplestring/echo-rest-example/customer"
+	"github.com/go-redis/redis"
+	"github.com/labstack/echo"
 	"github.com/labstack/gommon/log"
 	"os"
 	"strconv"
@@ -16,8 +16,8 @@ func main() {
 	redisDB, _ := strconv.Atoi(os.Getenv("REDIS_DB"))
 
 	redisCli := redis.NewClient(&redis.Options{
-		Addr:     redisAddr,
-		DB:       redisDB,
+		Addr:        redisAddr,
+		DB:          redisDB,
 		DialTimeout: time.Second,
 	})
 
@@ -38,6 +38,3 @@ func newServer(redisCli *redis.Client) *echo.Echo {
 
 	return e
 }
-
-
-

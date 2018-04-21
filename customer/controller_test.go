@@ -1,15 +1,14 @@
 package customer
 
-
 import (
-	"testing"
-	"github.com/labstack/echo"
-	"net/http/httptest"
-	"github.com/stretchr/testify/mock"
-	"github.com/stretchr/testify/assert"
-	"net/http"
 	"errors"
+	"github.com/labstack/echo"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+	"net/http"
+	"net/http/httptest"
 	"strings"
+	"testing"
 )
 
 type repositoryMock struct {
@@ -138,7 +137,7 @@ func TestCreateUser_OK(t *testing.T) {
 
 	c := &controller{
 		repository: r,
-		validator: v,
+		validator:  v,
 	}
 
 	if assert.NoError(t, c.Create(ctx)) {
@@ -166,7 +165,7 @@ func TestCreateUser_ValidationFailed(t *testing.T) {
 
 	c := &controller{
 		repository: r,
-		validator: v,
+		validator:  v,
 	}
 
 	if assert.NoError(t, c.Create(ctx)) {
@@ -192,11 +191,8 @@ func TestCreateUser_Error(t *testing.T) {
 
 	c := &controller{
 		repository: r,
-		validator: v,
+		validator:  v,
 	}
 
 	assert.Error(t, c.Create(ctx))
 }
-
-
-

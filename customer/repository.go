@@ -1,8 +1,8 @@
 package customer
 
 import (
-	"github.com/go-redis/redis"
 	"encoding/json"
+	"github.com/go-redis/redis"
 )
 
 // Repository defines the CRUD functions for Customer.
@@ -24,15 +24,15 @@ type repository struct {
 
 // GenerateID returns the redis hash key.
 func (c *repository) GenerateID(name string) string {
-	return "customer:"+name
+	return "customer:" + name
 }
 
 // FindByName find the customer based on name, if not found, a nil Customer is returned.
-func (c *repository) FindByName(name string) (*Customer, error)  {
+func (c *repository) FindByName(name string) (*Customer, error) {
 	r := c.store.Get(c.GenerateID(name))
 	redisErr := r.Err()
 
-	if redisErr != nil && redisErr != redis.Nil{
+	if redisErr != nil && redisErr != redis.Nil {
 		return nil, redisErr
 	}
 
@@ -52,7 +52,7 @@ func (c *repository) FindByName(name string) (*Customer, error)  {
 }
 
 // Create creates a new customer in redis.
-func (c *repository) Create(customer *Customer) error  {
+func (c *repository) Create(customer *Customer) error {
 	b, err := json.Marshal(customer)
 	if err != nil {
 		return err

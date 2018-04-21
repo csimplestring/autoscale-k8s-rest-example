@@ -10,7 +10,7 @@ type ValidationErrors []*ValidationError
 
 // ValidationError represents the detailed error message.
 type ValidationError struct {
-	Field string
+	Field   string
 	Message string
 }
 
@@ -50,7 +50,7 @@ func (v *validator) validate(customer Customer) (ValidationErrors, error) {
 }
 
 // checkUniqueName checks if the name already exists in redis.
-func (v *validator) checkUniqueName(name string) ( isUnique bool, err error) {
+func (v *validator) checkUniqueName(name string) (isUnique bool, err error) {
 	c, err := v.repository.FindByName(name)
 
 	if err != nil {
@@ -60,7 +60,6 @@ func (v *validator) checkUniqueName(name string) ( isUnique bool, err error) {
 	isUnique = c == nil
 	return
 }
-
 
 func fieldMissingError(field string) *ValidationError {
 	return &ValidationError{field, "this field is required."}

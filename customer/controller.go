@@ -15,7 +15,7 @@ type Controller interface {
 func NewController(repository Repository) Controller {
 	return &controller{
 		repository: repository,
-		validator: newValidator(repository),
+		validator:  newValidator(repository),
 	}
 }
 
@@ -60,4 +60,3 @@ func (c *controller) Get(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, customer)
 }
-

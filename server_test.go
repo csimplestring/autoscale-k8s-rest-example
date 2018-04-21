@@ -1,18 +1,18 @@
 package main
 
 import (
-	"testing"
+	"context"
+	"fmt"
+	"github.com/go-redis/redis"
+	"github.com/labstack/echo"
+	"github.com/stretchr/testify/assert"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"strconv"
-	"time"
-	"context"
-	"github.com/go-redis/redis"
-	"net/http"
-	"github.com/labstack/echo"
 	"strings"
-	"github.com/stretchr/testify/assert"
-	"fmt"
-	"io/ioutil"
+	"testing"
+	"time"
 )
 
 func TestServer(t *testing.T) {
@@ -22,8 +22,8 @@ func TestServer(t *testing.T) {
 	redisDB, _ := strconv.Atoi(os.Getenv("TEST_REDIS_DB"))
 
 	redisCli := redis.NewClient(&redis.Options{
-		Addr:     redisAddr,
-		DB:       redisDB,
+		Addr:        redisAddr,
+		DB:          redisDB,
 		DialTimeout: time.Second,
 	})
 
@@ -39,8 +39,8 @@ func TestServer(t *testing.T) {
 	redisCli.Del("customer:test-2")
 
 	POSTTests := []struct {
-		payload string
-		expectedBody string
+		payload        string
+		expectedBody   string
 		expectedStatus int
 	}{
 		{
@@ -75,8 +75,8 @@ func TestServer(t *testing.T) {
 	}
 
 	GETTests := []struct {
-		expectedBody string
-		name string
+		expectedBody   string
+		name           string
 		expectedStatus int
 	}{
 		{
@@ -98,7 +98,7 @@ func TestServer(t *testing.T) {
 
 	for i, test := range GETTests {
 		t.Run(fmt.Sprintf("get-test-%d", i), func(t *testing.T) {
-			res, err := http.Get("http://"+addr+"/customer/"+test.name)
+			res, err := http.Get("http://" + addr + "/customer/" + test.name)
 			assert.NoError(t, err)
 
 			actual, err := ioutil.ReadAll(res.Body)
@@ -110,14 +110,9 @@ func TestServer(t *testing.T) {
 		})
 	}
 
-
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	if err := s.Shutdown(ctx); err != nil {
 		s.Logger.Fatal(err)
 	}
 }
-
-
-
-

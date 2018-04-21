@@ -1,8 +1,8 @@
 package customer
 
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func TestCheckUniqueName_OK(t *testing.T) {
@@ -62,4 +62,3 @@ func TestValidate_ReturnValidationErrs(t *testing.T) {
 		&ValidationError{"address", "this field is required."},
 	}, violations)
 }
-
