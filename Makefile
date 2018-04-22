@@ -17,3 +17,9 @@ check:
 
 minikube:
 	eval $(minikube docker-env)
+	./vegeta attack -duration=50s -targets=benchmark.txt | tee results.bin | ./vegeta report
+
+auto-scale:
+	minikube addons enable metrics-server
+	minikube addons enable heapster
+	kubectl autoscale deployment api --cpu-percent=10 --min=2 --max=5 --namespace=testing
