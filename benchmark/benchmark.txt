@@ -1,0 +1,28 @@
+GET http://192.168.99.101:31321/api/customer/1
+Host: api.minikube
+
+GET http://192.168.99.101:31321/api/customer/2
+Host: api.minikube
+
+GET http://192.168.99.101:31321/api/customer/3
+Host: api.minikube
+
+GET http://192.168.99.101:31321/api/customer/4
+Host: api.minikube
+
+GET http://192.168.99.101:31321/api/customer/5
+Host: api.minikube
+
+GET http://192.168.99.101:31321/api/customer/6
+Host: api.minikube
+
+GET http://192.168.99.101:31321/api/customer/7
+Host: api.minikube
+
+GET http://192.168.99.101:31321/api/customer/8
+Host: api.minikube
+
+POST http://192.168.99.101:31321/api/customer
+Host: api.minikube
+Content-Type: application/json
+@./post.json
