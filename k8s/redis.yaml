@@ -16,12 +16,28 @@ spec:
       containers:
       - name: redis
         image: redis
+        command: ["redis-server", "/conf/redis.conf" ]
         resources:
           requests:
             cpu: 100m
             memory: 80Mi
         ports:
         - containerPort: 6379
+        volumeMounts:
+        - mountPath: /data
+          name: data
+        - mountPath: /conf
+          name: config
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: redis-volume-claim
+      - name: config
+        configMap:
+          name: redis-config
+          items:
+          - key: redis-config
+            path: redis.conf
 ---
 apiVersion: v1
 kind: Service
@@ -41,3 +57,31 @@ spec:
     app: redis
     role: master
     tier: backend
+---
+apiVersion: v1
+kind: ConfigMap
+data:
+  redis-config: |
+    save 300 10
+    dbfilename redis-dump.rdb
+    dir /data
+metadata:
+  name: redis-config
+  namespace: testing
+  labels:
+    k8s-app: redis
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-volume-claim
+  namespace: testing
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+  selector:
+    matchLabels:
+      app: redis

@@ -1,0 +1,31 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: redis-backup
+  namespace: testing
+  labels:
+    app: redis
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: redis-backup-job
+            image: busybox
+            command:
+              - sh
+              - "-ce"
+              - "cp /data/redis-dump.rdb /data/redis-dump-$(date +\"%Y%m%d-%H%M%S\").rdb"
+            volumeMounts:
+            - mountPath: "/data"
+              name: redis-data
+          restartPolicy: Never
+          volumes:
+          - name: redis-data
+            persistentVolumeClaim:
+              claimName: redis-volume-claim
