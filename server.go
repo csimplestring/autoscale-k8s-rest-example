@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/csimplestring/echo-rest-example/customer"
+	"github.com/csimplestring/autoscale-k8s-rest-example/customer"
 	"github.com/go-redis/redis"
 	"github.com/labstack/echo"
 	"github.com/labstack/gommon/log"
