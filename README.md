@@ -29,7 +29,7 @@ you need to find the exposed port, for example. 31321, use this port as {api-por
 
 ```
 // create
-Post http://{minikube-ip}:{api-port}}/api/customer/1
+Post http://{minikube-ip}:{api-port}}/api/customer
 Host: api.minikube
 Content-Type: application/json
 {
