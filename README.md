@@ -2,7 +2,7 @@
 
 A REST api example developed in Go, based on Echo framework. backed by Redis, running on K8s, featured with Ingress and HPA.
 
-##Get Started
+## Get Started
 
 ```
 git clone https://github.com/csimplestring/autoscale-k8s-rest-example.git
@@ -10,7 +10,7 @@ minikube start (you need to install minikube before)
 make build-docker
 ```
 
-##Deploy on Minikube
+## Deploy on Minikube
 
 ```
 cd k8s
@@ -25,7 +25,7 @@ kubectl create -f api.yaml
 then you have run: kubectl describe svc --namespace=kube-system traefik-ingress-service
 you need to find the exposed port, for example. 31321, use this port as {api-port}
 
-##Test
+## Test
 
 ```
 // create
@@ -45,14 +45,14 @@ Host: api.minikube
 Content-Type: application/json
 ```
 
-##Run CronJob
+## Run CronJob
 
 // this cron job will back up the redis data every 5 minutes
 ```
 kubectl create -f jobs.yaml
 ```
 
-##Enable HorizontalPodAutoscaler
+## Enable HorizontalPodAutoscaler
 
 before this, you need to enable heapster and metric-server in Minikube.
 ```
